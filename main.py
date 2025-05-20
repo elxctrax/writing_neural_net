@@ -49,5 +49,5 @@ while os.path.isfile(f"digits/digit{image_number}.png"):
         image_number += 1
 
 # neural network got digits 4,6,9,0 wrong. we can add more epochs to get more accuracy
-
+# used windows paint to write out my own digits and put them into the digits folder for the neural net to use
 # to run this, just type python main.py into your terminal.
