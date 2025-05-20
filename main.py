@@ -22,7 +22,32 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 model.fit(x_train, y_train, epochs=3)
 
 # save state of model
-model.save('handwritten.model')
+# saves state/data of the model into a binary txt file called "writing_neural_net.keras" 
+model.save('writing_neural_net.keras')
 
 # load model without having to train all over again
-model = tf.keras.models.load_model('handwritten.model')
+model = tf.keras.models.load_model('writing_neural_net.keras')
+
+loss, accuracy = model.evaluate(x_test, y_test) # determine the loss and accuracy of the neural network
+
+print(loss)
+print(accuracy) # loss and accuracy for the overall model and not for every epoch
+
+# iterate through every digit file in the digits folder. this is where the neural net shows the picture of the digit and what it thinks the digit is.
+image_number = 1
+while os.path.isfile(f"digits/digit{image_number}.png"):
+    try:
+        img = cv2.imread(f"digits/digit{image_number}.png") [:,:,0]
+        img = np.invert(np.array([img]))
+        prediction = model.predict(img)
+        print(f"This digit is probably a {np.argmax(prediction)}")
+        plt.imshow(img[0], cmap=plt.cm.binary)
+        plt.show()
+    except:
+        print("Error")
+    finally:
+        image_number += 1
+
+# neural network got digits 4,6,9,0 wrong. we can add more epochs to get more accuracy
+
+# to run this, just type python main.py into your terminal.
